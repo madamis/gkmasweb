@@ -32,7 +32,7 @@ class GenerateGKMASPage extends Command
         $this->call('make:model', ['name'=>$pageName]);
 
         $this->info('Generating controller...');
-        $this->call('make:controller',  ['name'=>$pageName.'Controller', '--model'=>$pageName, '--stub'=>'gkmas-controller']);
+        $this->call('make:controller', ['name' => $pageName.'Controller', '--model' => $pageName]);
 //        $this->call('make:controller', [
 //            'name' => $pageName . 'Controller',
 //            '--resource' => true,
