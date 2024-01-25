@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class CreateGkmasController extends Command
 {
@@ -48,8 +49,9 @@ class CreateGkmasController extends Command
         $stub = $this->files->get('stubs/v1/controller.stub');
 
         $stub = str_replace('{{controllerName}}', $controllerName, $stub);
-        $stub = str_replace('{{modelName}}', $modelName, $stub);
-        $stub = str_replace('{{smallModelName}}', $smallModelName, $stub);
+        $stub = str_replace('{{ModelName}}', $modelName, $stub);
+        $stub = str_replace('{{modelObject}}', Str::camel($smallModelName), $stub);
+        $stub = str_replace('{{model_snake}}', Str::snake($smallModelName), $stub);
 
         $this->files->put($controllerPath, $stub);
 

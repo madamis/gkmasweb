@@ -2,39 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{{modelName}};
+use App\Models\{{ModelName}};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class {{controllerName}} extends Controller
+class {{controllerName}} extends ApplicationController
 {
-    private function {{smallModelName}}(Request $request, {{modelName}} ${{smallModelName}})
+    protected array $fields = [
+        'files'=>['thumbnail','{{model_snake}}_file',],
+        'inputs'=>['author*', 'title*', 'category',],
+        'textfields'=>['body']
+    ];
+
+    private function {{modelObject}}(${{modelObject}}, $request)
     {
-        ${{smallModelName}}->icon = $request->icon;
-        ${{smallModelName}}->title = $request->title;
-        ${{smallModelName}}->body = $request->body;
-
-        $this->attachThumbnail($request, ${{smallModelName}}, '{{smallModelName}}', 600,400);
-
-        if (${{smallModelName}}->save())
+        $validator = Validator::make($request->all(), $this->generateRules($this->fields));
+        if($validator->fails())
         {
-            return redirect()
-                ->back()
-                ->with(['{{smallModelName}}-message'=>'About, successfully saved', 'type'=>'success']);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
-        else
-        {
-            return redirect()
-                ->back()
-                ->with(['{{smallModelName}}-message'=>'About, was not save', 'type'=>'warning']);
-        }
+
+        ${{modelObject}}->title = $request->title;
+        ${{modelObject}}->author = $request->author;
+        ${{modelObject}}->category = $request->category;
+        ${{modelObject}}->body = $request->body;
+
+        if($request->has('publication_date'))
+            ${{modelObject}}->publication_date = $request->publication_date;
+
+        if($request->has('is_published'))
+            ${{modelObject}}->is_published = $request->is_published;
+
+        $this->attachThumbnail($request, ${{modelObject}}, '{{modelObject}}');
+        $this->attachThumbnail($request, ${{modelObject}}, '{{modelObject}}', '{{model_snake}}_file');
+
+        return $this->saveItem(${{modelObject}}, '{{modelObject}}');
+
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        ${{modelObject}}s = {{ModelName}}::all();
+        $fields = $this->fields;
+        return view("{{model_snake}}s.index", compact("{{modelObject}}s", "fields"));
     }
 
     /**
@@ -50,67 +62,47 @@ class {{controllerName}} extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), $this->rules($request));
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        ${{smallModelName}} = new {{modelName}}();
-
-        return $this->{{smallModelName}}($request, ${{smallModelName}});
+        ${{modelObject}} = new {{ModelName}}();
+        return $this->{{modelObject}}(${{modelObject}}, $request);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, {{modelName}} ${{smallModelName}})
+    public function show({{ModelName}} ${{modelObject}})
     {
-        if($request->has('format'))
-        {
-            return json_encode(['title' => ${{smallModelName}}->title]);
-        }
-        else
-        {
-            return view('abouts.show', compact('${{smallModelName}}'));
-        }
+        return json_encode(['title' => ${{modelObject}}->title]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit({{modelName}} ${{smallModelName}})
+    public function edit({{ModelName}} ${{modelObject}})
     {
-        return view('{{smallModelName}}s.edit', compact('{{smallModelName}}'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, {{modelName}} ${{smallModelName}})
+    public function update(Request $request, {{ModelName}} ${{modelObject}})
     {
-        $validator = Validator::make($request->all(), $this->rules($request));
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        return $this->{{smallModelName}}($request, ${{smallModelName}});
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy({{modelName}} ${{smallModelName}})
+    public function destroy({{ModelName}} ${{modelObject}})
     {
-        $title = ${{smallModelName}}->title;
+        $title = ${{modelObject}}->title;
 
-        if(${{smallModelName}}->delete())
+        if(${{modelObject}}->delete())
         {
-            return redirect('/{{smallModelName}}s')
-                ->with(['{{smallModelName}}-message'=>'Successfully deleted '.$title,'type'=>'success']);
+            return redirect('/{{modelObject}}s')
+                ->with(['{{modelObject}}-message'=>'Successfully deleted '.$title,'type'=>'success']);
         }
-        return redirect('/{{smallModelName}}s')
-            ->with(['{{smallModelName}}-message'=>'Failed to delete '.$title, 'type'=>'danger']);
+        return redirect('/{{modelObject}}')
+            ->with(['{{modelObject}}-message'=>'Failed to delete '.$title, 'type'=>'danger']);
     }
 }

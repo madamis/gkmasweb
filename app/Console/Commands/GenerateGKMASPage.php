@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
 class GenerateGKMASPage extends Command
@@ -21,6 +22,11 @@ class GenerateGKMASPage extends Command
      */
     protected $description = 'This will generate a single page similar to GKMAS web page with all its associated files.';
 
+    public function __construct(Filesystem $files)
+    {
+        parent::__construct();
+        $this->files = $files;
+    }
     /**
      * Execute the console command.
      */
@@ -32,11 +38,17 @@ class GenerateGKMASPage extends Command
         $this->call('make:model', ['name'=>$pageName]);
 
         $this->info('Generating controller...');
-        $this->call('make:controller', ['name' => $pageName.'Controller', '--model' => $pageName]);
-//        $this->call('make:controller', [
-//            'name' => $pageName . 'Controller',
-//            '--resource' => true,
-//        ]);
+        //generating application controller
+        $controllerPath = app_path('Http/Controllers/ApplicationController.php');
+
+        if (!$this->files->exists($controllerPath)) {
+            $stub = $this->files->get('stubs/v1/application.stub');
+            $this->files->put($controllerPath, $stub);
+            $this->info("{$controllerPath}................Done");
+        }
+        //end generating application controller
+        $this->call('app:create-gkmas-controller', ['name' => $pageName.'Controller', 'model' => $pageName]);
+
         $this->info('generating views');
         $this->call('make:view', ['name' => Str::lower(Str::plural($pageName,2).'/index')]);
         $this->call('make:view', ['name' => Str::lower(Str::plural($pageName,2).'/edit')]);
