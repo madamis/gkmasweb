@@ -3,6 +3,8 @@
 /public/build
 /public/hot
 /public/storage
+/app/Http/Controllers
+/resources/views
 /storage/*.key
 /vendor
 .env
