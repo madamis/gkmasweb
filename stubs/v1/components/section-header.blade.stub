@@ -1,0 +1,12 @@
+<div>
+    <!-- Simplicity is an acquired taste. - Katharine Gerould -->
+    <div class="row">
+        <div class="col-xl-6 col-lg-7 col-md-9 mx-auto">
+            <div class="section-title text-center mb-55">
+                <span class="wow fadeInDown" data-wow-delay=".2s">{{$sectionName}}</span>
+                <h2 class="wow fadeInUp text-logo" data-wow-delay=".4s">{{$sectionTitle}}</h2>
+                <p class="wow fadeInUp" data-wow-delay=".6s">{{$sectionDescription}}</p>
+            </div>
+        </div>
+    </div>
+</div>
