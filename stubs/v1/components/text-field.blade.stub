@@ -1,0 +1,12 @@
+<div class="mb-3">
+    @if($type == 'file' and $item != null)
+        <img src="{{$item->$input}}" height="100" width="100" alt="">
+    @endif
+    <label for="{{$input}}">{{ucfirst(str_replace('_',' ',$input))}}</label>
+        <input type="{{$type}}" name="{{$input}}" id="{{$input}}" class="form-control"
+               value="{{ $item->$input ?? old("$input")}}"
+           placeholder="Enter {{ucfirst(str_replace('_',' ',$input))}} ..." {{$required}}>
+            @if($errors->has("$input"))
+                <span class="text-danger text-center">{{$errors->first("$input")}}</span>
+            @endif
+</div>

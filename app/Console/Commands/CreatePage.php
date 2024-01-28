@@ -6,14 +6,14 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
-class GenerateGKMASPage extends Command
+class CreatePage extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:generate-gkmas-page {pageName}';
+    protected $signature = 'app:create-page {pageName}';
 
     /**
      * The console command description.

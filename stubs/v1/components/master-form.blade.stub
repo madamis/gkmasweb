@@ -1,0 +1,42 @@
+@auth
+<form action="{{$url}}" method="post" class="contact-form mb-3" {{$formData}}>
+    @csrf
+    @method($method)
+    <h3 class="text-center mb-3">{{$title}}</h3>
+    <div class="col-12">
+        @foreach($fields['files'] as $file)
+            <x-text-field :type="'file'" :input="$file" :item="$item"></x-text-field>
+        @endforeach
+    </div>
+    <div class="row">
+        @foreach($fields['inputs'] as $input)
+        <div class="col-md-12 mb-2">
+            <x-text-field :input="$input" :item="$item"></x-text-field>
+        </div>
+        @endforeach
+    </div>
+    <div class="col-12">
+        @foreach($fields['dates'] as $date)
+            <x-text-field :type="'date'" :input="$date" :item="$item"></x-text-field>
+        @endforeach
+    </div>
+
+    <div class="row">
+        @foreach($fields['textfields'] as $textfield)
+            <div class="col-12 mb-2">
+                <textarea name="{{$textfield}}" id="{{$textfield}}" class="form-control" placeholder="{{ucfirst($textfield)}}" rows="5">{{$item->$textfield ?? old("$textfield")}}</textarea>
+                @if($errors->has("$textfield"))
+                    <span class="text-danger text-center">{{$errors->first("$textfield")}}</span>
+                @endif
+            </div>
+        @endforeach
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="button">
+                <button type="submit" class="theme-btn">Submit Page</button>
+            </div>
+        </div>
+    </div>
+</form>
+@endauth
