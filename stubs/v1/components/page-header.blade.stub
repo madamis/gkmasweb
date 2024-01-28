@@ -1,0 +1,20 @@
+<section class="page-banner-section pt-75 pb-75 img-bg" style="
+background-color: #009245">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="banner-content">
+                    <h2 class="text-white">{!!  $title !!}</h2>
+                    <div class="page-breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{$page}}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
