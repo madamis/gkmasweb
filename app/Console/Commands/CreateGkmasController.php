@@ -50,7 +50,7 @@ class CreateGkmasController extends Command
 
         $stub = str_replace('{{controllerName}}', $controllerName, $stub);
         $stub = str_replace('{{ModelName}}', $modelName, $stub);
-        $stub = str_replace('{{modelObject}}', Str::camel($smallModelName), $stub);
+        $stub = str_replace('{{modelObject}}', Str::camel($modelName), $stub);
         $stub = str_replace('{{model_snake}}', Str::snake($smallModelName), $stub);
 
         $this->files->put($controllerPath, $stub);

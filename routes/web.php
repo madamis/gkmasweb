@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('home', HomeController::class);
+Route::resource('educationTrips', EducationTripsController::class);
+Route::resource('parentsAndChildren', App\Http\Controllers\ParentsAndChildrenController::class);
+Route::resource("parentsHere", App\Http\Controllers\ParentsHereController::class);

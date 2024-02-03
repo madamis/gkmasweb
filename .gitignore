@@ -4,7 +4,9 @@
 /public/hot
 /public/storage
 /app/Http/Controllers
+/app/Models
 /resources/views
+/routes/web.php
 /storage/*.key
 /vendor
 .env
