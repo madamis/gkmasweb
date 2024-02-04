@@ -20,3 +20,6 @@ Route::resource('home', HomeController::class);
 Route::resource('educationTrips', EducationTripsController::class);
 Route::resource('parentsAndChildren', App\Http\Controllers\ParentsAndChildrenController::class);
 Route::resource("parentsHere", App\Http\Controllers\ParentsHereController::class);
+Route::resource("contact", App\Http\Controllers\ContactController::class);
+Route::resource("contact", App\Http\Controllers\ContactController::class);
+Route::resource("hospital", App\Http\Controllers\HospitalController::class);

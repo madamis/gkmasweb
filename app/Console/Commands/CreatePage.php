@@ -36,6 +36,7 @@ class CreatePage extends Command
 
         $this->info('Generating model...');
         $this->call('make:model', ['name'=>$pageName]);
+        $this->call('make:migration', ['name'=>"create".Str::plural($pageName)."_table"]);
 
         $this->info('Generating controller...');
         //generating application controller
@@ -53,9 +54,8 @@ class CreatePage extends Command
         $this->call('make:view', ['name' => Str::lower(Str::plural($pageName,2).'/index')]);
         $this->call('make:view', ['name' => Str::lower(Str::plural($pageName,2).'/edit')]);
         $this->call('make:view', ['name' => Str::lower(Str::plural($pageName,2).'/show')]);
-
         $this->info('resource route');
-        $resourcefulRoute = 'Route::resource("'.Str::camel($pageName).'", App\Http\Controllers\\'.$pageName.'Controller::class);';
+        $resourcefulRoute = 'Route::resource("'.Str::plural(Str::camel($pageName)).'", App\Http\Controllers\\'.$pageName.'Controller::class);';
         $routesPath = app_path("../routes/web.php");
         file_put_contents($routesPath, $resourcefulRoute . PHP_EOL, FILE_APPEND | LOCK_EX);
         $this->info('page generation done');
